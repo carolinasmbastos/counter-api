@@ -14,6 +14,18 @@ app.get(prefix + '/next', (req, res) => {
     }})
 })
 
+
+// endpoint: /current
+// method: get
+// retrieves the current available integer value (greater than 0)
+app.get(prefix + '/current', (req, res) => {
+    res.json({data : {
+        type : "integer",
+        id : counter
+    }})
+})
+
+
 app.set('port', process.env.PORT || 8080);
 
 const server = app.listen(app.get('port'), () => {
