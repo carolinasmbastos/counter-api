@@ -15,9 +15,8 @@ var counter = 0;
 
 app.use(express.urlencoded({ extended: true }));
 
-// endpoint: /next, method: get
 // retrieves the next available integer value (greater than 0)
-app.get(prefix + "/next", (req, res) => {
+app.get(prefix + "/next", (req, res, next) => {
   res.json({
     data: {
       type: "integer",
@@ -26,9 +25,8 @@ app.get(prefix + "/next", (req, res) => {
   });
 });
 
-// endpoint: /current, method: get
 // retrieves the current available integer value (greater than 0)
-app.get(prefix + "/current", (req, res) => {
+app.get(prefix + "/current", (req, res, next) => {
   res.json({
     data: {
       type: "integer",
@@ -37,15 +35,15 @@ app.get(prefix + "/current", (req, res) => {
   });
 });
 
-// endpoint: /current, method: put
 // reset the current value to a given non-negative value
-app.put(prefix + "/current", validateCounter, (req, res) => {
+app.put(prefix + "/current", validateCounter, (req, res, next) => {
   //Get validation results if there are any
   const valErrors = validationResult(req).array();
 
   if (valErrors.length != 0) {
-    console.log(valErrors);
-    res.status(422).send({ errors: valErrors });
+    console.log(valErrors);    
+    next({ status: 422, errors: valErrors});
+
   } else {
     counter = req.body.current;
     res.json({
@@ -56,6 +54,19 @@ app.put(prefix + "/current", validateCounter, (req, res) => {
     });
   }
 });
+
+app.all("*", (req, res, next) => { 
+  next({ status: 404, errors: `Requested path ${req.originalUrl} does not exist` });
+});
+
+
+let errorHandler = (error, req, res, next) => {
+  console.log("--> error Handler: ", error);
+  res.status(error.status != undefined ? error.status : "500");
+  res.send(error);
+};
+
+app.use(errorHandler);
 
 app.set("port", process.env.PORT || 8080);
 
