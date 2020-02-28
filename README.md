@@ -48,12 +48,14 @@ I attempted to complete two stretch goals: Create a UI for testing and deploying
 I could have done the OAuth part on Facebook but I was running out of time.
 
 ### Instructions to run assignment locally
-Clone the repository.
-Run a npm install to install dependencies.
-Create a .env file to define the value for the following configurations:
+1. Clone the repository.
+2. Run a npm install to install dependencies.
+3. Create a .env file to define the value for the following configurations:
+```
 SECRET_PHRASE= <any phrase to be used as part of the token generation>
 TOKEN_EXPIRATION= <define the value in hours or days like: 1h or 1d>
-run a npm start
+```
+4. run a npm start
 
 ### What did you not include in your solution that you want us to know about?
 If I had additional time I could have completed one more stretch goal (Sign  in using OAuth).
