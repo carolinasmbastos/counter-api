@@ -5,17 +5,17 @@ const { validateCounter } = require("../validators/validateCounter");
 const { validationResult } = require("express-validator");
 
 // retrieves the next available integer value (greater than 0)
-router.get("/next", verifyJwt, (req, res, next) => {
+router.get("/counter/next", verifyJwt, (req, res, next) => {
   res.json({
     data: {
-      type: "integer",
+      type: "counter",
       id: ++counter
     }
   });
 });
 
 // retrieves the current available integer value (greater than 0)
-router.get("/current", verifyJwt, (req, res, next) => {
+router.get("/counter/current", verifyJwt, (req, res, next) => {
   res.json({
     data: {
       type: "integer",
@@ -25,7 +25,7 @@ router.get("/current", verifyJwt, (req, res, next) => {
 });
 
 // reset the current value to a given non-negative value
-router.put("/current", verifyJwt, validateCounter, (req, res, next) => {
+router.put("/counter/current", verifyJwt, validateCounter, (req, res, next) => {
   //Get validation results if there are any
   let valErrors = validationResult(req).array();
 
